@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="es-VE" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Industrias Mazzei · Soluciones Metalmecánicas de Precisión | Torno CNC, Soldadura y Fabricación Industrial</title>
+  <meta name="description" content="Taller metalmecánico industrial de referencia en Venezuela. Mecanizado CNC, tornería pesada hasta 3 metros, soldadura calificada TIG/MIG/Stick, oxicorte, plasma y reconstrucción de piezas según plano o muestra física.">
+  <meta name="robots" content="index, follow">
+  
+  <!-- Open Graph / Meta -->
+  <meta property="og:title" content="Industrias Mazzei · Precisión Metalmecánica Industrial">
+  <meta property="og:description" content="Más de 40 años fabricando repuestos críticos y piezas de alta precisión con tolerancias de ±0.01 mm en aceros especiales para la industria.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_VE">
+  <meta property="og:url" content="https://industriasmazzei.com">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            mazzei: {
+              50: '#F0F7FF',
+              100: '#E0EFFF',
+              200: '#BAE0FD',
+              300: '#7CC8FB',
+              400: '#36ABF7',
+              500: '#0C8EE9',
+              600: '#0270C7',
+              700: '#0359A1',
+              800: '#074B85',
+              900: '#0C3F6E',
+              950: '#082849'
+            },
+            metal: {
+              50: '#F8FAFC',
+              100: '#F1F5F9',
+              200: '#E2E8F0',
+              300: '#CBD5E1',
+              400: '#94A3B8',
+              500: '#64748B',
+              600: '#475569',
+              700: '#334155',
+              800: '#1E293B',
+              900: '#0F172A'
+            }
+          },
+          boxShadow: {
+            'glow-blue': '0 0 25px -4px rgba(2, 112, 199, 0.35)',
+            'floating-light': '0 20px 40px -15px rgba(15, 23, 42, 0.08), 0 0 1px 1px rgba(15, 23, 42, 0.04)',
+            'card-hover': '0 25px 45px -10px rgba(7, 75, 133, 0.12), 0 0 0 1px rgba(2, 112, 199, 0.25)',
+            'glass-light': '0 10px 30px -5px rgba(15, 23, 42, 0.05)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Antigravity Design System Light Theme Custom Properties */
+    :root {
+      --bg-ambient-light: radial-gradient(circle at 50% 0%, rgba(2, 112, 199, 0.08) 0%, rgba(255, 255, 255, 0) 65%),
+                          radial-gradient(circle at 90% 25%, rgba(14, 165, 233, 0.06) 0%, rgba(255, 255, 255, 0) 55%),
+                          radial-gradient(circle at 10% 80%, rgba(7, 75, 133, 0.04) 0%, rgba(255, 255, 255, 0) 50%);
+    }
+
+    body {
+      background-color: #FFFFFF;
+      color: #334155;
+      background-image: var(--bg-ambient-light);
+      background-attachment: fixed;
+      overflow-x: hidden;
+    }
+
+    /* Subtle Blueprint Mesh in Crisp Steel Grey */
+    .blueprint-grid-light {
+      background-image: 
+        linear-gradient(to right, rgba(100, 116, 139, 0.07) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(100, 116, 139, 0.07) 1px, transparent 1px);
+      background-size: 36px 36px;
+    }
+
+    /* Glassmorphism Surfaces for Light Background */
+    .glass-card-light {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .glass-card-light:hover {
+      background: #FFFFFF;
+      border-color: rgba(2, 112, 199, 0.35);
+      box-shadow: 0 25px 45px -10px rgba(7, 75, 133, 0.12), 0 0 20px -3px rgba(2, 112, 199, 0.15);
+    }
+
+    .glass-header-light {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid #E2E8F0;
+    }
+
+    /* 3D Perspective Card Tilt */
+    .perspective-canvas {
+      perspective: 1100px;
+    }
+
+    .tilt-card {
+      transform-style: preserve-3d;
+      will-change: transform;
+      transition: transform 0.15s ease-out, box-shadow 0.25s ease-out, border-color 0.25s ease;
+    }
+
+    /* Dynamic Cursor Shine Effect in Corporate Blue */
+    .shine-card {
+      position: relative;
+      overflow: hidden;
+    }
+    .shine-card::before {
+      content: '';
+      position: absolute;
+      top: var(--cursor-y, -100%);
+      left: var(--cursor-x, -100%);
+      width: 260px;
+      height: 260px;
+      background: radial-gradient(circle, rgba(2, 112, 199, 0.09) 0%, transparent 70%);
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .shine-card:hover::before {
+      opacity: 1;
+    }
+
+    /* Pulse Glow for Operational Status */
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.6); opacity: 0; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+    .pulse-ring-effect {
+      animation: pulse-ring 2.2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+    }
+
+    /* Technical Specification Tags */
+    .spec-badge-light {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+      background: #F1F5F9;
+      border: 1px solid #CBD5E1;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      color: #334155;
+      font-weight: 600;
+    }
+
+    /* Technical Precision Corner Mark */
+    .tech-border-mark {
+      position: relative;
+    }
+    .tech-border-mark::after {
+      content: '+';
+      position: absolute;
+      bottom: -6px;
+      right: -6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: rgba(2, 112, 199, 0.6);
+      pointer-events: none;
+    }
+
+    /* Image zoom hover effect */
+    .img-zoom-container {
+      overflow: hidden;
+      border-radius: 0.75rem;
+    }
+    .img-zoom-container img {
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .group:hover .img-zoom-container img {
+      transform: scale(1.06);
+    }
+
+    /* Custom subtle scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #F8FAFC; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #0270C7; }
+  </style>
+</head>
+<body class="blueprint-grid-light antialiased selection:bg-mazzei-700 selection:text-white">
+
+  <!-- ================= TOP EMERGENCY STATUS BANNER ================= -->
+  <div class="border-b border-metal-200 bg-metal-900 text-white px-4 py-2 text-xs font-mono">
+    <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
+      <div class="flex items-center gap-2.5">
+        <span class="relative flex h-2.5 w-2.5">
+          <span class="pulse-ring-effect absolute inline-flex h-full w-full rounded-full bg-emerald-400"></span>
+          <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+        </span>
+        <span class="text-white font-semibold">PLANTA EN OPERACIÓN CONTINUA</span>
+        <span class="text-metal-500 hidden sm:inline">|</span>
+        <span class="text-metal-300 hidden sm:inline">Atención prioritaria para paradas de línea crítica y emergencias mecánicas</span>
+      </div>
+      <div class="flex items-center gap-5 text-xs">
+        <span class="text-metal-300 hidden md:inline">📍 Eje Carabobo - Aragua - Nacional</span>
+        <a href="tel:+584140000000" class="text-mazzei-300 hover:text-white font-bold flex items-center gap-1.5 transition-colors">
+          <span>🚨 Guardia 24/7:</span>
+          <span>+58 (414) 000-0000</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= NAVIGATION BAR (With Real Logo) ================= -->
+  <header class="sticky top-0 z-50 glass-header-light transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo with Real Asset -->
+      <a href="#" class="flex items-center gap-3.5 group">
+        <img src="img/logo-header.png" alt="Industrias Mazzei Logo" class="h-12 w-auto object-contain transition-transform group-hover:scale-105" onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='flex';">
+        
+        <!-- Fallback if image path is not loaded -->
+        <div id="logoFallback" class="hidden w-12 h-12 rounded-xl bg-gradient-to-br from-mazzei-800 to-mazzei-600 items-center justify-center text-white font-bold text-xl shadow-glow-blue">
+          M
+        </div>
+        
+        <div class="flex flex-col">
+          <span class="text-xl font-extrabold tracking-tight text-metal-900 flex items-center gap-1.5 font-sans">
+            INDUSTRIAS <span class="text-mazzei-700">MAZZEI</span>
+          </span>
+          <span class="text-[10px] font-mono tracking-widest text-metal-500 uppercase font-semibold">Precisión Metalmecánica · Fund. 1984</span>
+        </div>
+      </a>
+
+      <!-- Desktop Links -->
+      <nav class="hidden lg:flex items-center gap-8 text-sm font-semibold text-metal-700">
+        <a href="#servicios" class="hover:text-mazzei-700 transition-colors">Servicios Técnicos</a>
+        <a href="#galeria" class="hover:text-mazzei-700 transition-colors">Trabajos Reales</a>
+        <a href="#maquinaria" class="hover:text-mazzei-700 transition-colors">Parque de Maquinaria</a>
+        <a href="#materiales" class="hover:text-mazzei-700 transition-colors">Aceros & Materiales</a>
+        <a href="#protocolo" class="hover:text-mazzei-700 transition-colors">Protocolo Parada 24/7</a>
+        <a href="#comparativa" class="hover:text-mazzei-700 transition-colors">Por Qué Mazzei</a>
+      </nav>
+
+      <!-- RFQ CTA & Concept Lab in Mazzei Blue -->
+      <div class="flex items-center gap-3">
+        <a href="conceptos-visuales.html" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-mazzei-50 hover:bg-mazzei-100 text-mazzei-800 text-xs font-bold border border-mazzei-200 transition-colors">
+          <span>🔬 Lab de Conceptos & Motion</span>
+        </a>
+        <a href="#cotizador-rfq" class="relative inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-mazzei-800 to-mazzei-600 text-white text-sm font-bold shadow-glow-blue hover:from-mazzei-900 hover:to-mazzei-700 hover:scale-[1.02] active:scale-[0.98] transition-all">
+          <span>Solicitar Cotización (RFQ)</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= HERO SECTION (Theme Claro + Real Workshop Backdrop) ================= -->
+  <section class="relative pt-12 pb-20 md:pt-16 md:pb-24 overflow-hidden bg-gradient-to-b from-white via-mazzei-50/40 to-white">
+    
+    <!-- Ambient Light Blue Orbs -->
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-mazzei-200/40 rounded-full blur-[150px] pointer-events-none"></div>
+    <div class="absolute top-1/3 -right-28 w-[500px] h-[350px] bg-sky-100/60 rounded-full blur-[140px] pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        
+        <!-- Left Hero Copy -->
+        <div class="lg:col-span-7 space-y-6">
+          
+          <!-- Benchmark Badge in Crisp Blue -->
+          <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-mazzei-50 border border-mazzei-200 text-xs font-mono text-mazzei-900 shadow-sm">
+            <span class="w-2 h-2 rounded-full bg-mazzei-600 animate-ping"></span>
+            <span>INGENIERÍA METALMECÁNICA & FABRICACIÓN B2B</span>
+            <span class="text-mazzei-700 font-bold border-l border-mazzei-300 pl-2">+40 AÑOS</span>
+          </div>
+
+          <!-- Main Hero Heading -->
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-metal-900 leading-[1.12]">
+            Mecanizado CNC y <br class="hidden sm:block"/>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-mazzei-800 via-mazzei-600 to-sky-600">Fabricación Industrial</span>
+            Bajo Plano o Muestra
+          </h1>
+
+          <!-- Technical Subtitle -->
+          <p class="text-base sm:text-lg text-metal-600 leading-relaxed max-w-2xl">
+            Soluciones metalmecánicas para la gran industria: <strong>tornería pesada hasta 3 metros, fresado CNC con tolerancias de ±0.01 mm, soldadura calificada TIG/MIG y corte térmico de chapa</strong>. Cero tiempos muertos ante emergencias de planta.
+          </p>
+
+          <!-- Verified Specs Callouts in Clean White Cards -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 text-xs font-mono">
+            <div class="p-3 rounded-xl bg-white border border-metal-200 shadow-sm">
+              <span class="text-mazzei-700 block text-[10px] uppercase font-bold tracking-wider">Tolerancia</span>
+              <span class="text-metal-900 font-bold text-sm">±0.01 mm</span>
+            </div>
+            <div class="p-3 rounded-xl bg-white border border-metal-200 shadow-sm">
+              <span class="text-mazzei-700 block text-[10px] uppercase font-bold tracking-wider">Volteo Torno</span>
+              <span class="text-metal-900 font-bold text-sm">Hasta 3 Metros</span>
+            </div>
+            <div class="p-3 rounded-xl bg-white border border-metal-200 shadow-sm">
+              <span class="text-mazzei-700 block text-[10px] uppercase font-bold tracking-wider">Normas</span>
+              <span class="text-metal-900 font-bold text-sm">AWS / ASME / SAE</span>
+            </div>
+            <div class="p-3 rounded-xl bg-white border border-metal-200 shadow-sm">
+              <span class="text-emerald-700 block text-[10px] uppercase font-bold tracking-wider">Respuesta Parada</span>
+              <span class="text-emerald-600 font-bold text-sm">&lt; 24 Horas</span>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-wrap items-center gap-4 pt-4">
+            <a href="#cotizador-rfq" class="px-7 py-4 rounded-xl bg-gradient-to-r from-mazzei-800 to-mazzei-600 text-white font-bold text-base shadow-glow-blue hover:from-mazzei-900 hover:to-mazzei-700 hover:-translate-y-0.5 transition-all flex items-center gap-3">
+              <span>Cotizar con Plano o Muestra</span>
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            </a>
+
+            <a href="https://wa.me/584140000000?text=Hola%20Industrias%20Mazzei,%20tengo%20un%20requerimiento%20metalmecanico%20urgente" target="_blank" rel="noopener" class="px-6 py-4 rounded-xl bg-white hover:bg-metal-50 border border-metal-300 hover:border-emerald-500 text-metal-800 font-semibold text-base flex items-center gap-2.5 transition-all shadow-sm">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+              <span>WhatsApp de Guardia Técnica</span>
+            </a>
+          </div>
+
+        </div>
+
+        <!-- Right Hero: 3D Interactive Metrology Card with Real Machining Showcase -->
+        <div class="lg:col-span-5 perspective-canvas">
+          <div id="heroCard3d" class="tilt-card glass-card-light rounded-2xl p-6 sm:p-7 relative shadow-floating-light border-metal-200">
+            
+            <!-- Terminal Header -->
+            <div class="flex items-center justify-between border-b border-metal-200 pb-3 mb-5">
+              <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-mazzei-700 inline-block"></span>
+                <span class="font-mono text-xs font-bold text-metal-800">FOTOGRAFÍA REAL DE TALLER & METROLOGÍA</span>
+              </div>
+              <span class="spec-badge-light text-mazzei-800 border-mazzei-300 bg-mazzei-50">PROCESO EN VIVO</span>
+            </div>
+
+            <!-- Real Work Image with Technical Blueprint Overlay -->
+            <div class="relative rounded-xl overflow-hidden mb-5 border border-metal-200 shadow-inner group">
+              <img src="img/taller-torno-maquinaria.jpg" alt="Mecanizado en Torno Industrial Real en Planta Mazzei" class="w-full h-52 object-cover object-center group-hover:scale-105 transition-transform duration-500">
+              
+              <!-- Blueprint Info Badge Overlay -->
+              <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-metal-900/90 via-metal-900/60 to-transparent p-4 text-white">
+                <div class="font-mono text-xs text-sky-300 font-bold">TORNO PESADO EN OPERACIÓN CONTINUA</div>
+                <div class="text-[11px] text-metal-200">Eje motriz para central azucarero · Tolerancia ±0.008 mm</div>
+              </div>
+            </div>
+
+            <!-- Parameters Grid -->
+            <div class="grid grid-cols-2 gap-3 text-xs font-mono">
+              <div class="p-2.5 rounded-lg bg-white border border-metal-200">
+                <span class="text-metal-500 block text-[10px]">Material Mecanizado</span>
+                <span class="text-metal-900 font-bold">Acero SAE 4140 Bonificado</span>
+              </div>
+              <div class="p-2.5 rounded-lg bg-white border border-metal-200">
+                <span class="text-metal-500 block text-[10px]">Ajuste Dimensional</span>
+                <span class="text-metal-900 font-bold">Calibración H7 / p6</span>
+              </div>
+            </div>
+
+            <!-- Floating Stamp in Corporate Blue Style -->
+            <div class="absolute -bottom-3 -right-3 bg-white border border-mazzei-300 rounded-xl px-4 py-2.5 shadow-lg flex items-center gap-3">
+              <div class="w-8 h-8 rounded-lg bg-mazzei-50 text-mazzei-700 flex items-center justify-center font-bold text-sm border border-mazzei-200">✓</div>
+              <div>
+                <div class="text-xs font-bold text-metal-900">Inspección Final 100%</div>
+                <div class="text-[10px] font-mono text-metal-500">Entrega con Certificado</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= CLIENT LOGOS / EMPRESAS QUE CONFÍAN ================= -->
+  <section class="border-y border-metal-200 bg-metal-50/70 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="text-center md:text-left">
+          <span class="text-xs font-mono font-bold uppercase tracking-wider text-metal-500 block">Confianza Industrial</span>
+          <h3 class="text-sm font-bold text-metal-800">Empresas de Manufactura y Agroindustria Atendidas</h3>
+        </div>
+        
+        <!-- Real Client Logos from Current Site -->
+        <div class="flex items-center justify-center flex-wrap gap-8 sm:gap-12">
+          <img src="img/cliente-1.png" alt="Cliente Industrial Mazzei" class="h-9 w-auto grayscale hover:grayscale-0 transition-all opacity-80 hover:opacity-100">
+          <img src="img/cliente-2.png" alt="Cliente Industrial Mazzei" class="h-9 w-auto grayscale hover:grayscale-0 transition-all opacity-80 hover:opacity-100">
+          <img src="img/cliente-3.png" alt="Cliente Industrial Mazzei" class="h-9 w-auto grayscale hover:grayscale-0 transition-all opacity-80 hover:opacity-100">
+          <img src="img/cliente-4.png" alt="Cliente Industrial Mazzei" class="h-9 w-auto grayscale hover:grayscale-0 transition-all opacity-80 hover:opacity-100">
+          <img src="img/cliente-5.png" alt="Cliente Industrial Mazzei" class="h-9 w-auto grayscale hover:grayscale-0 transition-all opacity-80 hover:opacity-100">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 9 CORE SERVICES (Real Photos + 3D Tilt) ================= -->
+  <section id="servicios" class="py-24 relative bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+        <span class="spec-badge-light text-mazzei-800 border-mazzei-300 bg-mazzei-50">CAPACIDAD METALMECÁNICA COMPLETA</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-metal-900 tracking-tight">
+          Nuestros 9 Servicios Técnicos Especializados
+        </h2>
+        <p class="text-metal-600 text-base">
+          Fotografías reales de los procesos de mecanizado, soldadura y calderería ejecutados en nuestra planta física.
+        </p>
+      </div>
+
+      <!-- Services Grid (9 Cards with Real Photographs) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 perspective-canvas" id="servicesGrid">
+        
+        <!-- 1. Torno CNC -->
+        <div class="glass-card-light shine-card tilt-card rounded-2xl p-6 flex flex-col justify-between group tech-border-mark">
+          <div>
+            <div class="img-zoom-container mb-5 relative border border-metal-200">
+              <img src="img/servicio-torno-cnc.jpg" alt="Mecanizado en Torno CNC Industrias Mazzei" class="w-full h-44 object-cover object-center">
+              <span class="absolute top-3 right-3 spec-badge-light bg-white/95 text-mazzei-800 border-mazzei-300">CNC 3-EJES</span>
+            </div>
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="text-lg font-bold text-metal-900 group-hover:text-mazzei-700 transition-colors">Mecanizado en Torno CNC</h3>
+            </div>
+            <p class="text-metal-600 text-sm leading-relaxed mb-4">
+              Torneado por control numérico para piezas cilíndricas complejas con repetibilidad exacta, roscados cónicos y tolerancias micrométricas.
+            </p>
+          </div>
+          <div class="border-t border-metal-100 pt-4 flex items-center justify-between text-xs font-mono text-metal-500">
+            <span>Tolerancia: ±0.01 mm</span>
+            <a href="#cotizador-rfq" class="text-mazzei-700 hover:text-mazzei-900 hover:underline font-semibold flex items-center gap-1">Cotizar RFQ →</a>
+          </div>
+        </div>
+
+        <!-- 2. Soldadura TIG / MIG / Stick -->
+        <div class="glass-card-light shine-card tilt-card rounded-2xl p-6 flex flex-col justify-between group tech-border-mark">
+          <div>
+            <div class="img-zoom-container mb-5 relative border border-metal-200">
+              <img src="img/servicio-soldadura.jpg" alt="Soldadura Calificada Stick, TIG y MIG Mazzei" class="w-full h-44 object-cover object-center">
+              <span class="absolute top-3 right-3 spec-badge-light bg-white/95 text-sky-800 border-sky-300">CALIFICADA AWS</span>
+            </div>
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="text-lg font-bold text-metal-900 group-hover:text-mazzei-700 transition-colors">Soldadura Stick, TIG y MIG</h3>
+            </div>
+            <p class="text-metal-600 text-sm leading-relaxed mb-4">
+              Procedimientos homologados en aceros al carbono, inoxidable 304/316, aluminio y fundición para recipientes a presión y estructuras críticas.
+            </p>
+          </div>
+          <div class="border-t border-metal-100 pt-4 flex items-center justify-between text-xs font-mono text-metal-500">
+            <span>Procesos: GTAW · GMAW · SMAW</span>
+            <a href="#cotizador-rfq" class="text-mazzei-700 hover:text-mazzei-900 hover:underline font-semibold flex items-center gap-1">Cotizar RFQ →</a>
+          </div>
+        </div>
+
+        <!-- 3. Oxicorte y Plasma CNC -->
+        <div class="glass-card-light shine-card tilt-card rounded-2xl p-6 flex flex-col justify-between group tech-border-mark">
+          <div>
+            <div class="img-zoom-container mb-5 relative border border-metal-200">
+              <img src="img/servicio-oxicorte-plasma.jpg" alt="Oxicorte y Corte Plasma CNC Mazzei" class="w-full h-44 object-cover object-center">
+              <span class="absolute top-3 right-3 spec-badge-light bg-white/95 text-mazzei-800 border-mazzei-300">HASTA 100 MM</span>
+            </div>
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="text-lg font-bold text-metal-900 group-hover:text-mazzei-700 transition-colors">Oxicorte y Plasma CNC</h3>
+            </div>
+            <p class="text-metal-600 text-sm leading-relaxed mb-4">
+              Corte pantográfico de chapas y planchas de acero estructural: bridas, cartelas, discos y bases para maquinaria pesada con mínima escoria.
+            </p>
+          </div>
+          <div class="border-t border-metal-100 pt-4 flex items-center justify-between text-xs font-mono text-metal-500">
+            <span>Corte térmico de alta definición</span>
+            <a href="#cotizador-rfq" class="text-mazzei-700 hover:text-mazzei-900 hover:underline font-semibold flex items-center gap-1">Cotizar RFQ →</a>
+          </div>
+        </div>
+
+        <!-- 4. Tornería Pesada Convencional -->
+        <div class="glass-card-light shine-card tilt-card rounded-2xl p-6 flex flex-col justify-between group tech-border-mark">
+          <div>
+            <div class="img-zoom-container mb-5 relative border border-metal-200">
+              <img src="img/servicio-torneria-pesada.jpg" alt="Tornería Pesada Convencional Mazzei" class="w-full h-44 object-cover object-center">
+              <span class="absolute top-3 right-3 spec-badge-light bg-white/95 text-mazzei-800 border-mazzei-300">3 METROS VOLTEO</span>
+            </div>
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="text-lg font-bold text-metal-900 group-hover:text-mazzei-700 transition-colors">Tornería Pesada Convencional</h3>
+            </div>
+            <p class="text-metal-600 text-sm leading-relaxed mb-4">
+              Mecanizado de piezas sobredimensionadas: rodillos de molienda para centrales azucareros, ejes cardánicos, camisas y tambores de tracción.
+            </p>
+          </div>
+          <div class="border-t border-metal-100 pt-4 flex items-center justify-between text-xs font-mono text-metal-500">
+            <span>Tornos paralelos de gran capacidad</span>
+            <a href="#cotizador-rfq" class="text-mazzei-700 hover:text-mazzei-900 hover:underline font-semibold flex items-center gap-1">Cotizar RFQ →</a>
+          </div>
+        </div>
+
+        <!-- 5. Fabricación de Piezas Bajo Muestra o Plano -->
+        <div class="glass-card-light shine-card tilt-card rounded-2xl p-6 flex flex-col justify-between group border-mazzei-300 bg-mazzei-50/30 tech-border-mark shadow-sm">
+          <div>
+            <div class="img-zoom-container mb-5 relative border border-mazzei-300">
+              <img src="img/servicio-fabricacion-piezas.jpg" alt="Fabricación de Piezas Bajo Muestra o Plano Mazzei" class="w-full h-44 object-cover object-center">
+              <span class="absolute top-3 right-3 spec-badge-light bg-mazzei-700 text-white border-mazzei-700 font-bold">INGENIERÍA INVERSA</span>
+            </div>
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="text-lg font-bold text-metal-900 group-hover:text-mazzei-700 transition-colors">Fabricación Bajo Plano / Muestra</h3>
+            </div>
+            <p class="text-metal-700 text-sm leading-relaxed mb-4">
+              Solución líder para repuestos descatalogados. Levantamos cotas sobre la pieza rota, determinamos el tratamiento térmico y la fabricamos exacta.
+            </p>
+          </div>
+          <div class="border-t border-mazzei-200 pt-4 flex items-center justify-between text-xs font-mono text-metal-700">
+            <span>Formatos: STEP · DWG · Pieza en mano</span>
+            <a href="#cotizador-rfq" class="text-mazzei-700 hover:text-mazzei-900 hover:underline font-bold flex items-center gap-1">Cotizar RFQ →</a>
+          </div>
+        </div>
+
+        <!-- 6. Plegado de Lámina y Chapa -->
+        <div class="glass-card-light shine-card tilt-card rounded-2xl p-6 flex flex-col justify-between group tech-border-mark">
+          <div>
+            <div class="img-zoom-container mb-5 relative border border-metal-200">
+              <img src="img/servicio-plegado-lamina.jpg" alt="Plegado de Lámina y Chapa Mazzei" class="w-full h-44 object-cover object-center">
+              <span class="absolute top-3 right-3 spec-badge-light bg-white/95 text-metal-700 border-metal-300">PRENSA HIDRÁULICA</span>
+            </div>
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="text-lg font-bold text-metal-900 group-hover:text-mazzei-700 transition-colors">Plegado de Lámina</h3>
+            </div>
+            <p class="text-metal-600 text-sm leading-relaxed mb-4">
+              Doblado milimétrico de perfiles especiales, canales tipo U/C, tolvas, bandejas industriales y refuerzos en hierro negro y acero inoxidable.
+            </p>
+          </div>
+          <div class="border-t border-metal-100 pt-4 flex items-center justify-between text-xs font-mono text-metal-500">
+            <span>Control de ángulos de desarrollo</span>
+            <a href="#cotizador-rfq" class="text-mazzei-700 hover:text-mazzei-900 hover:underline font-semibold flex items-center gap-1">Cotizar RFQ →</a>
+          </div>
+        </div>
+
+        <!-- 7. Troquelado y Estampado -->
+        <div class="glass-card-light shine-card tilt-card rounded-2xl p-6 flex flex-col justify-between group tech-border-mark">
+          <div>
+            <div class="img-zoom-container mb-5 relative border border-metal-200">
+              <img src="img/servicio-troquelado.jpg" alt="Troquelado y Estampado Industrial Mazzei" class="w-full h-44 object-cover object-center">
+              <span class="absolute top-3 right-3 spec-badge-light bg-white/95 text-metal-700 border-metal-300">ALTA SERIE</span>
+            </div>
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="text-lg font-bold text-metal-900 group-hover:text-mazzei-700 transition-colors">Troquelado y Estampado</h3>
+            </div>
+            <p class="text-metal-600 text-sm leading-relaxed mb-4">
+              Producción continua de componentes estampados, arandelas especiales, grapas de fijación y discos para líneas de ensamblaje industrial.
+            </p>
+          </div>
+          <div class="border-t border-metal-100 pt-4 flex items-center justify-between text-xs font-mono text-metal-500">
+            <span>Producción en grandes volúmenes</span>
+            <a href="#cotizador-rfq" class="text-mazzei-700 hover:text-mazzei-900 hover:underline font-semibold flex items-center gap-1">Cotizar RFQ →</a>
+          </div>
+        </div>
+
+        <!-- 8. Corte con Guillotina -->
+        <div class="glass-card-light shine-card tilt-card rounded-2xl p-6 flex flex-col justify-between group tech-border-mark">
+          <div>
+            <div class="img-zoom-container mb-5 relative border border-metal-200">
+              <img src="img/servicio-corte-guillotina.jpg" alt="Corte con Guillotina Industrial Mazzei" class="w-full h-44 object-cover object-center">
+              <span class="absolute top-3 right-3 spec-badge-light bg-white/95 text-metal-700 border-metal-300">LONGITUD 3M</span>
+            </div>
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="text-lg font-bold text-metal-900 group-hover:text-mazzei-700 transition-colors">Corte con Guillotina Industrial</h3>
+            </div>
+            <p class="text-metal-600 text-sm leading-relaxed mb-4">
+              Cizallado limpio en frío para platabandas, tiras y formatos de lámina sin rebaba ni deformación angular, listos para ensamblaje.
+            </p>
+          </div>
+          <div class="border-t border-metal-100 pt-4 flex items-center justify-between text-xs font-mono text-metal-500">
+            <span>Borde recto exacto a 90°</span>
+            <a href="#cotizador-rfq" class="text-mazzei-700 hover:text-mazzei-900 hover:underline font-semibold flex items-center gap-1">Cotizar RFQ →</a>
+          </div>
+        </div>
+
+        <!-- 9. Reconstrucción de Equipos Industriales -->
+        <div class="glass-card-light shine-card tilt-card rounded-2xl p-6 flex flex-col justify-between group tech-border-mark border-sky-300">
+          <div>
+            <div class="img-zoom-container mb-5 relative border border-sky-300">
+              <img src="img/servicio-reconstruccion.jpg" alt="Reconstrucción y Overhaul de Equipos Industriales Mazzei" class="w-full h-44 object-cover object-center">
+              <span class="absolute top-3 right-3 spec-badge-light bg-white/95 text-sky-800 border-sky-300">OVERHAUL</span>
+            </div>
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="text-lg font-bold text-metal-900 group-hover:text-mazzei-700 transition-colors">Reconstrucción de Equipos</h3>
+            </div>
+            <p class="text-metal-600 text-sm leading-relaxed mb-4">
+              Recuperación integral de componentes críticos desgastados: relleno de muñones por soldadura, rectificado, encamisado y puesta a punto total.
+            </p>
+          </div>
+          <div class="border-t border-metal-100 pt-4 flex items-center justify-between text-xs font-mono text-metal-500">
+            <span>Vida útil extendida al 100%</span>
+            <a href="#cotizador-rfq" class="text-mazzei-700 hover:text-mazzei-900 hover:underline font-semibold flex items-center gap-1">Cotizar RFQ →</a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= DEDICATED GALLERY: REAL WORKSHOP & JOBS ================= -->
+  <section id="galeria" class="py-20 bg-metal-50 border-y border-metal-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+        <div>
+          <span class="spec-badge-light text-mazzei-800 border-mazzei-300 bg-white">INSTALACIONES & TRABAJOS EJECUTADOS</span>
+          <h2 class="text-3xl font-extrabold text-metal-900 mt-2">Nuestra Planta y Taller en Acción</h2>
+          <p class="text-metal-600 text-sm mt-1">Imágenes reales del día a día en nuestro taller atendiendo a la industria pesada.</p>
+        </div>
+        <div class="text-xs font-mono text-metal-600 bg-white px-4 py-2 rounded-lg border border-metal-200 shadow-sm">
+          <span class="text-mazzei-700 font-bold">40 Años</span> de Operación Comprobada
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Gallery Card 1 -->
+        <div class="bg-white rounded-2xl overflow-hidden border border-metal-200 shadow-sm hover:shadow-md transition-shadow group">
+          <div class="overflow-hidden h-60">
+            <img src="img/taller-operacion-1.jpg" alt="Mecanizado en Taller Mazzei" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+          </div>
+          <div class="p-5">
+            <span class="text-[11px] font-mono text-mazzei-700 font-bold block mb-1">MECANIZADO DE GRAN FORMATO</span>
+            <h4 class="font-bold text-metal-900 text-base mb-1">Torneado de Ejes y Bocinas</h4>
+            <p class="text-xs text-metal-600 leading-relaxed">
+              Mecanizado de piezas de alta exigencia mecánica con calibración dimensional en frío.
+            </p>
+          </div>
+        </div>
+
+        <!-- Gallery Card 2 -->
+        <div class="bg-white rounded-2xl overflow-hidden border border-metal-200 shadow-sm hover:shadow-md transition-shadow group">
+          <div class="overflow-hidden h-60">
+            <img src="img/taller-operacion-2.jpg" alt="Fabricación de Piezas Acabadas Mazzei" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+          </div>
+          <div class="p-5">
+            <span class="text-[11px] font-mono text-mazzei-700 font-bold block mb-1">CONTROL DE CALIDAD DIMENSIONAL</span>
+            <h4 class="font-bold text-metal-900 text-base mb-1">Piezas Acabadas Listas para Despacho</h4>
+            <p class="text-xs text-metal-600 leading-relaxed">
+              Verificación de ajuste micrométrico antes del embalaje y entrega al cliente.
+            </p>
+          </div>
+        </div>
+
+        <!-- Gallery Card 3 -->
+        <div class="bg-white rounded-2xl overflow-hidden border border-metal-200 shadow-sm hover:shadow-md transition-shadow group">
+          <div class="overflow-hidden h-60">
+            <img src="img/taller-operacion-3.jpg" alt="Calderería y Soldadura Estructural Mazzei" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+          </div>
+          <div class="p-5">
+            <span class="text-[11px] font-mono text-sky-700 font-bold block mb-1">CALDERERÍA Y SOLDADURA</span>
+            <h4 class="font-bold text-metal-900 text-base mb-1">Estructuras Pesadas y Ensambles</h4>
+            <p class="text-xs text-metal-600 leading-relaxed">
+              Uniones soldadas homologadas bajo normas AWS para soportar cargas cíclicas severas.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= BENCHMARK COMPARATIVE: WHY MAZZEI WINS ================= -->
+  <section id="comparativa" class="py-16 bg-white border-b border-metal-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
+        <span class="spec-badge-light text-mazzei-800 border-mazzei-300 bg-mazzei-50">ANÁLISIS COMPARATIVO DE CAPACIDAD</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-metal-900">
+          Por Qué la Gran Industria Confía en Industrias Mazzei
+        </h2>
+        <p class="text-metal-600 text-sm">
+          Frente a talleres convencionales o importaciones lentas de semanas, Mazzei combina maquinaria pesada con respuesta inmediata in-situ.
+        </p>
+      </div>
+
+      <div class="overflow-x-auto bg-metal-50/50 rounded-2xl border border-metal-200 shadow-sm">
+        <table class="w-full text-left text-xs sm:text-sm text-metal-700 border-collapse">
+          <thead>
+            <tr class="border-b border-metal-200 font-mono text-metal-500 uppercase text-[11px] bg-metal-100/60">
+              <th class="py-4 px-5">Capacidad / Criterio</th>
+              <th class="py-4 px-5 text-mazzei-800 font-bold bg-mazzei-50/90 border-x border-mazzei-200">INDUSTRIAS MAZZEI</th>
+              <th class="py-4 px-5">Talleres Tradicionales</th>
+              <th class="py-4 px-5">Repuestos Importados</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-metal-100 font-sans">
+            <tr class="hover:bg-white">
+              <td class="py-4 px-5 font-semibold text-metal-900">Tiempo de Entrega (Parada)</td>
+              <td class="py-4 px-5 font-bold text-emerald-700 bg-mazzei-50/50 border-x border-mazzei-200">24 a 48 horas (Turnos 24/7)</td>
+              <td class="py-4 px-5 text-metal-500">1 a 2 semanas (Según cola)</td>
+              <td class="py-4 px-5 text-rose-600 font-medium">6 a 12 semanas + Aduana</td>
+            </tr>
+            <tr class="hover:bg-white">
+              <td class="py-4 px-5 font-semibold text-metal-900">Ingeniería Inversa (Sin Planos)</td>
+              <td class="py-4 px-5 font-bold text-metal-900 bg-mazzei-50/50 border-x border-mazzei-200">✅ Levantamiento de muestra rota/desgastada</td>
+              <td class="py-4 px-5 text-metal-500">⚠️ Solo trabajos simples sin cálculo de tolerancias</td>
+              <td class="py-4 px-5 text-rose-600 font-medium">❌ Imposible si fabricante descontinuó modelo</td>
+            </tr>
+            <tr class="hover:bg-white">
+              <td class="py-4 px-5 font-semibold text-metal-900">Capacidad de Volteo y Longitud</td>
+              <td class="py-4 px-5 font-bold text-metal-900 bg-mazzei-50/50 border-x border-mazzei-200">Hasta 3 metros y ejes de gran tonelaje</td>
+              <td class="py-4 px-5 text-metal-500">Limitado a 1 - 1.5 metros estándar</td>
+              <td class="py-4 px-5 text-metal-500">Altísimos fletes marítimos/aéreos</td>
+            </tr>
+            <tr class="hover:bg-white">
+              <td class="py-4 px-5 font-semibold text-metal-900">Mecanizado CNC + Tornería Pesada</td>
+              <td class="py-4 px-5 font-bold text-metal-900 bg-mazzei-50/50 border-x border-mazzei-200">✅ Ambos en el mismo taller</td>
+              <td class="py-4 px-5 text-metal-500">Subcontratan o no tienen CNC</td>
+              <td class="py-4 px-5 text-metal-500">Solo piezas de catálogo rígido</td>
+            </tr>
+            <tr class="hover:bg-white">
+              <td class="py-4 px-5 font-semibold text-metal-900">Garantía y Ajuste en Planta</td>
+              <td class="py-4 px-5 font-bold text-emerald-700 bg-mazzei-50/50 border-x border-mazzei-200">100% Garantía de acople funcional</td>
+              <td class="py-4 px-5 text-metal-500">Sin garantía dimensional formal</td>
+              <td class="py-4 px-5 text-rose-600 font-medium">Riesgo de error sin devolución ágil</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= BENCHMARK: MATERIALS & STEEL MATRIX ================= -->
+  <section id="materiales" class="py-20 relative bg-metal-50/50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
+        <span class="spec-badge-light text-mazzei-800 border-mazzei-300 bg-white">MATRIZ SIDERÚRGICA</span>
+        <h2 class="text-3xl font-extrabold text-metal-900">Aceros y Aleaciones en Stock y Mecanizado</h2>
+        <p class="text-metal-600 text-sm">
+          Trabajamos exclusivamente con materias primas certificadas según norma ASTM / AISI / SAE.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 font-mono text-xs">
+        
+        <div class="bg-white rounded-xl p-4 text-center border border-metal-200 hover:border-mazzei-500 transition-all shadow-sm">
+          <span class="text-mazzei-800 font-bold text-sm block">SAE 1045</span>
+          <span class="text-metal-500 text-[10px] block mt-1 font-semibold">Acero al Carbono</span>
+          <span class="text-[10px] text-metal-500 mt-2 block">Ejes, pernos, piñones estándar</span>
+        </div>
+
+        <div class="bg-white rounded-xl p-4 text-center border border-metal-200 hover:border-mazzei-500 transition-all shadow-sm">
+          <span class="text-mazzei-800 font-bold text-sm block">SAE 4140</span>
+          <span class="text-metal-500 text-[10px] block mt-1 font-semibold">Cromo-Molibdeno</span>
+          <span class="text-[10px] text-metal-500 mt-2 block">Ejes de alto torque y fatiga</span>
+        </div>
+
+        <div class="bg-white rounded-xl p-4 text-center border border-metal-200 hover:border-sky-500 transition-all shadow-sm">
+          <span class="text-sky-700 font-bold text-sm block">AISI 304/316</span>
+          <span class="text-metal-500 text-[10px] block mt-1 font-semibold">Acero Inoxidable</span>
+          <span class="text-[10px] text-metal-500 mt-2 block">Alimentos, químicos y marino</span>
+        </div>
+
+        <div class="bg-white rounded-xl p-4 text-center border border-metal-200 hover:border-sky-500 transition-all shadow-sm">
+          <span class="text-sky-700 font-bold text-sm block">BRONCE SAE 64</span>
+          <span class="text-metal-500 text-[10px] block mt-1 font-semibold">Fosforado / Autolub</span>
+          <span class="text-[10px] text-metal-500 mt-2 block">Bujes, coronas y cojinetes</span>
+        </div>
+
+        <div class="bg-white rounded-xl p-4 text-center border border-metal-200 hover:border-metal-500 transition-all shadow-sm">
+          <span class="text-metal-800 font-bold text-sm block">ACEROS D2 / O1</span>
+          <span class="text-metal-500 text-[10px] block mt-1 font-semibold">Grado Herramienta</span>
+          <span class="text-[10px] text-metal-500 mt-2 block">Troqueles, cuchillas, matrices</span>
+        </div>
+
+        <div class="bg-white rounded-xl p-4 text-center border border-metal-200 hover:border-metal-500 transition-all shadow-sm">
+          <span class="text-metal-800 font-bold text-sm block">NYLON / POM</span>
+          <span class="text-metal-500 text-[10px] block mt-1 font-semibold">Polímeros Técnicos</span>
+          <span class="text-[10px] text-metal-500 mt-2 block">Engranajes silenciosos, guías</span>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= BENCHMARK: PROTOCOLO PARADA 24/7 ================= -->
+  <section id="protocolo" class="py-20 bg-metal-900 text-white border-t border-metal-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-14 space-y-3">
+        <span class="spec-badge-light text-mazzei-300 border-mazzei-700 bg-metal-800">RESPUESTA ANTE CONTINGENCIAS</span>
+        <h2 class="text-3xl font-extrabold text-white">Protocolo Parada de Planta 24/7</h2>
+        <p class="text-metal-300 text-sm">
+          Flujo acelerado para minimizar el lucro cesante de su industria en 4 etapas garantizadas.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
+        
+        <!-- Step 1 -->
+        <div class="bg-metal-800/80 rounded-2xl p-6 relative border border-metal-700">
+          <div class="w-10 h-10 rounded-xl bg-metal-700 text-white font-mono font-bold flex items-center justify-center mb-4 border border-metal-600">
+            01
+          </div>
+          <h4 class="text-base font-bold text-white mb-2">Recepción / Diagnóstico In-Situ</h4>
+          <p class="text-xs text-metal-300 leading-relaxed">
+            Envío de la muestra rota a nuestro taller o evaluación técnica fotográfica inmediata con micrómetros digitales.
+          </p>
+          <div class="mt-4 text-[10px] font-mono text-mazzei-300 font-semibold">Plazo: &lt; 2 Horas</div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="bg-metal-800/80 rounded-2xl p-6 relative border border-metal-700">
+          <div class="w-10 h-10 rounded-xl bg-metal-700 text-white font-mono font-bold flex items-center justify-center mb-4 border border-metal-600">
+            02
+          </div>
+          <h4 class="text-base font-bold text-white mb-2">Levantamiento CAD & Asignación</h4>
+          <p class="text-xs text-metal-300 leading-relaxed">
+            Reconstrucción dimensional exacta del plano y selección del acero con tratamiento térmico adecuado.
+          </p>
+          <div class="mt-4 text-[10px] font-mono text-mazzei-300 font-semibold">Plazo: Mismo Día</div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="bg-metal-800/80 rounded-2xl p-6 relative border border-metal-700">
+          <div class="w-10 h-10 rounded-xl bg-metal-700 text-white font-mono font-bold flex items-center justify-center mb-4 border border-metal-600">
+            03
+          </div>
+          <h4 class="text-base font-bold text-white mb-2">Mecanizado en Turno Continuo</h4>
+          <p class="text-xs text-metal-300 leading-relaxed">
+            Activación de guardias nocturnas en tornos CNC y convencionales para fabricar la pieza sin detener el husillo.
+          </p>
+          <div class="mt-4 text-[10px] font-mono text-emerald-400 font-semibold">Operación: Turnos 24h</div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="bg-metal-800/80 rounded-2xl p-6 relative border border-emerald-500/50">
+          <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-300 font-mono font-bold flex items-center justify-center mb-4 border border-emerald-500/40">
+            04
+          </div>
+          <h4 class="text-base font-bold text-white mb-2">Despacho & Certificación</h4>
+          <p class="text-xs text-metal-300 leading-relaxed">
+            Control de calidad dimensional final y entrega directa en su planta lista para montaje y puesta en marcha.
+          </p>
+          <div class="mt-4 text-[10px] font-mono text-emerald-400 font-semibold">100% Acople Garantizado</div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= ADVANCED RFQ / COTIZADOR PRO ================= -->
+  <section id="cotizador-rfq" class="py-24 relative overflow-hidden bg-white">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      
+      <div class="bg-white rounded-3xl p-8 sm:p-12 border border-metal-200 shadow-xl">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          <!-- Left Column -->
+          <div class="lg:col-span-5 space-y-4">
+            <span class="spec-badge-light text-mazzei-800 border-mazzei-300 bg-mazzei-50">SOLICITUD DE COTIZACIÓN TÉCNICA (RFQ)</span>
+            <h2 class="text-3xl font-extrabold text-metal-900 leading-tight">
+              Presupuesto Técnico sin Compromiso
+            </h2>
+            <p class="text-metal-600 text-sm leading-relaxed">
+              Complete los datos de la pieza o proyecto. Generaremos la cotización con tiempos de entrega de taller y costo aproximado.
+            </p>
+            
+            <div class="space-y-3 pt-2 text-xs text-metal-600 font-mono">
+              <div class="flex items-center gap-2">
+                <span class="text-mazzei-700 font-bold">✓</span> Recibimos archivos CAD (.step, .dwg, .dxf, .pdf)
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-mazzei-700 font-bold">✓</span> Asesoría técnica con maestros torneros e ingenieros
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-mazzei-700 font-bold">✓</span> Cotizaciones con validez fiscal (RIF)
+              </div>
+            </div>
+
+            <!-- Emergency Checkbox Notice in Clean Blue Style -->
+            <div class="p-4 rounded-xl bg-mazzei-50 border border-mazzei-200 text-xs text-metal-700">
+              <span class="font-bold text-mazzei-800 flex items-center gap-1.5">
+                <span>🚨</span> ¿Parada de Planta Activa?
+              </span>
+              <p class="mt-1 text-metal-600">Marque la casilla de emergencia en el formulario para alertar a la guardia técnica de inmediato.</p>
+            </div>
+          </div>
+
+          <!-- Right Form -->
+          <div class="lg:col-span-7 bg-metal-50 rounded-2xl p-6 sm:p-8 border border-metal-200">
+            <form id="rfqForm" class="space-y-4" onsubmit="event.preventDefault(); submitRFQ();">
+              
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-mono font-semibold text-metal-700 mb-1">Empresa / Contacto *</label>
+                  <input type="text" id="rfqCompany" required placeholder="Ej. Central Azucarero / Ing. Ruiz" class="w-full bg-white border border-metal-300 rounded-lg px-3.5 py-2.5 text-sm text-metal-900 placeholder-metal-400 focus:outline-none focus:border-mazzei-700 shadow-sm">
+                </div>
+                <div>
+                  <label class="block text-xs font-mono font-semibold text-metal-700 mb-1">Teléfono / WhatsApp *</label>
+                  <input type="tel" id="rfqPhone" required placeholder="+58 412 000 0000" class="w-full bg-white border border-metal-300 rounded-lg px-3.5 py-2.5 text-sm text-metal-900 placeholder-metal-400 focus:outline-none focus:border-mazzei-700 shadow-sm">
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-mono font-semibold text-metal-700 mb-1">Servicio *</label>
+                  <select id="rfqService" class="w-full bg-white border border-metal-300 rounded-lg px-3.5 py-2.5 text-sm text-metal-900 focus:outline-none focus:border-mazzei-700 shadow-sm">
+                    <option value="Torno CNC">Mecanizado en Torno CNC</option>
+                    <option value="Fabricación según Muestra/Plano">Fabricación según Muestra / Plano</option>
+                    <option value="Tornería Pesada hasta 3m">Tornería Pesada hasta 3 Metros</option>
+                    <option value="Soldadura TIG/MIG/Stick">Soldadura Especializada TIG/MIG</option>
+                    <option value="Oxicorte y Plasma CNC">Oxicorte y Plasma CNC</option>
+                    <option value="Plegado de Lámina / Guillotina">Plegado de Lámina o Guillotina</option>
+                    <option value="Troquelado y Estampado">Troquelado y Estampado</option>
+                    <option value="Reconstrucción de Equipo">Reconstrucción / Overhaul de Equipo</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-mono font-semibold text-metal-700 mb-1">Tipo de Pedido *</label>
+                  <select id="rfqBatch" class="w-full bg-white border border-metal-300 rounded-lg px-3.5 py-2.5 text-sm text-metal-900 focus:outline-none focus:border-mazzei-700 shadow-sm">
+                    <option value="Pieza Única / Repuesto de Emergencia">Pieza Única / Repuesto Crítico</option>
+                    <option value="Lote Pequeño (2 - 20 Unidades)">Lote Pequeño (2 - 20 Unidades)</option>
+                    <option value="Producción Seriada (+50 Piezas)">Producción Seriada (+50 Piezas)</option>
+                    <option value="Mantenimiento de Equipo Completo">Mantenimiento de Equipo Completo</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-mono font-semibold text-metal-700 mb-1">Descripción de la Pieza (Material, Dimensiones, Muestra) *</label>
+                <textarea id="rfqDetails" rows="3" required placeholder="Indique dimensiones aproximadas, diámetro, largo, tipo de acero (ej. 4140, Inox, Bronce) y si cuenta con muestra física o plano digital..." class="w-full bg-white border border-metal-300 rounded-lg px-3.5 py-2.5 text-sm text-metal-900 placeholder-metal-400 focus:outline-none focus:border-mazzei-700 shadow-sm"></textarea>
+              </div>
+
+              <!-- Urgent Checkbox -->
+              <div class="flex items-center gap-3 bg-white p-3 rounded-lg border border-metal-300 shadow-sm">
+                <input type="checkbox" id="rfqEmergency" class="w-4 h-4 text-mazzei-700 bg-white border-metal-400 rounded focus:ring-0">
+                <label for="rfqEmergency" class="text-xs text-metal-800 font-semibold cursor-pointer">
+                  🚨 <strong class="text-mazzei-800">PARADA DE PLANTA URGENTE:</strong> Activar protocolo de guardia inmediata 24/7.
+                </label>
+              </div>
+
+              <!-- Submit Button in Mazzei Blue -->
+              <button type="submit" class="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-mazzei-800 to-mazzei-600 hover:from-mazzei-900 hover:to-mazzei-700 text-white font-bold text-sm shadow-glow-blue hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2">
+                <span>Enviar Solicitud a Guardia Técnica por WhatsApp</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+              </button>
+
+              <div class="text-[11px] text-metal-500 text-center font-mono">
+                🔒 Confidencialidad y protección de planos industriales garantizada.
+              </div>
+
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= TECHNICAL FAQ SECTION ================= -->
+  <section class="py-20 border-t border-metal-200 bg-metal-50/40">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center mb-12 space-y-2">
+        <span class="spec-badge-light text-mazzei-800 border-mazzei-300 bg-mazzei-50">PREGUNTAS TÉCNICAS FRECUENTES</span>
+        <h2 class="text-3xl font-extrabold text-metal-900">Consultas Frecuentes de Jefes de Planta</h2>
+      </div>
+
+      <div class="space-y-4">
+        
+        <details class="group bg-white rounded-xl p-5 border border-metal-200 open:border-mazzei-500 transition-colors shadow-sm">
+          <summary class="flex justify-between items-center font-bold text-metal-900 cursor-pointer list-none text-base">
+            <span>¿Cómo proceden si la pieza rota no tiene planos ni marca legible?</span>
+            <span class="text-mazzei-700 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <p class="text-metal-700 text-sm mt-3 leading-relaxed border-t border-metal-200 pt-3">
+            Realizamos ingeniería inversa completa. Tomamos la pieza rota o desgastada, medimos los alojamientos no afectados para deducir las cotas originales, calculamos el módulo o paso de roscas, realizamos pruebas de chispa/dureza para determinar el material óptimo y generamos el plano CAD para fabricarla idéntica o con mejoras mecánicas.
+          </p>
+        </details>
+
+        <details class="group bg-white rounded-xl p-5 border border-metal-200 open:border-mazzei-500 transition-colors shadow-sm">
+          <summary class="flex justify-between items-center font-bold text-metal-900 cursor-pointer list-none text-base">
+            <span>¿Pueden mecanizar piezas en acero inoxidable sanitario para plantas de alimentos?</span>
+            <span class="text-mazzei-700 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <p class="text-metal-700 text-sm mt-3 leading-relaxed border-t border-metal-200 pt-3">
+            Sí. Trabajamos frecuentemente con acero inoxidable AISI 304 y AISI 316L, aplicando velocidades de corte adecuadas, refrigeración controlada para evitar el endurecimiento superficial y pulido sanitario para evitar rugosidades donde proliferen bacterias.
+          </p>
+        </details>
+
+        <details class="group bg-white rounded-xl p-5 border border-metal-200 open:border-mazzei-500 transition-colors shadow-sm">
+          <summary class="flex justify-between items-center font-bold text-metal-900 cursor-pointer list-none text-base">
+            <span>¿Cuál es el diámetro y longitud máxima que pueden tornear?</span>
+            <span class="text-mazzei-700 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <p class="text-metal-700 text-sm mt-3 leading-relaxed border-t border-metal-200 pt-3">
+            En nuestros tornos paralelos pesados podemos tornear piezas de hasta <strong>3,000 mm (3 metros)</strong> entre puntos y platos con volteo amplio para diámetros sobredimensionados, ideal para ejes de molinos, cilindros de laminación y tambores industriales.
+          </p>
+        </details>
+
+        <details class="group bg-white rounded-xl p-5 border border-metal-200 open:border-mazzei-500 transition-colors shadow-sm">
+          <summary class="flex justify-between items-center font-bold text-metal-900 cursor-pointer list-none text-base">
+            <span>¿Hacen despachos a plantas fuera de Maracay y Valencia?</span>
+            <span class="text-mazzei-700 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <p class="text-metal-700 text-sm mt-3 leading-relaxed border-t border-metal-200 pt-3">
+            Sí. Atendemos requerimientos a nivel nacional (Barquisimeto, Acarigua, Guayana, Caracas, Zulia y Oriente). Para emergencias críticas coordinamos transporte directo puerta a puerta hasta la planta del cliente.
+          </p>
+        </details>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= MODERN INDUSTRIAL FOOTER (Real Logo Footer) ================= -->
+  <footer class="border-t border-metal-200 bg-metal-900 text-metal-400 py-12 text-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+        
+        <div class="space-y-4">
+          <div class="flex items-center gap-2.5">
+            <img src="img/logo-footer.png" alt="Industrias Mazzei Logo" class="h-10 w-auto object-contain brightness-200" onerror="this.style.display='none';">
+          </div>
+          <p class="text-xs text-metal-400 leading-relaxed">
+            Más de 40 años fortaleciendo el aparato productivo e industrial de Venezuela con mecanizado de alta precisión y soluciones metalmecánicas duraderas.
+          </p>
+          <div class="text-xs font-mono text-metal-500">
+            RIF: J-XXXXXXXX-X (Sede Operativa Central)
+          </div>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-white mb-3 text-xs uppercase tracking-wider font-mono">Servicios de Mecanizado</h4>
+          <ul class="space-y-2 text-xs">
+            <li><a href="#servicios" class="hover:text-mazzei-300 transition-colors">Torno CNC de Alta Repetibilidad</a></li>
+            <li><a href="#servicios" class="hover:text-mazzei-300 transition-colors">Tornería Pesada hasta 3 Metros</a></li>
+            <li><a href="#servicios" class="hover:text-mazzei-300 transition-colors">Fabricación bajo Plano / Muestra</a></li>
+            <li><a href="#servicios" class="hover:text-mazzei-300 transition-colors">Soldadura Especializada TIG / MIG</a></li>
+            <li><a href="#servicios" class="hover:text-mazzei-300 transition-colors">Oxicorte y Plasma CNC 100mm</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-white mb-3 text-xs uppercase tracking-wider font-mono">Sectores Atendidos</h4>
+          <ul class="space-y-2 text-xs">
+            <li><a href="#sectores" class="hover:text-mazzei-300 transition-colors">Centrales Azucareros y Silos</a></li>
+            <li><a href="#sectores" class="hover:text-mazzei-300 transition-colors">Alfarerías y Cerámicas (Extrusión)</a></li>
+            <li><a href="#sectores" class="hover:text-mazzei-300 transition-colors">Plantas de Alimentos y Bebidas</a></li>
+            <li><a href="#sectores" class="hover:text-mazzei-300 transition-colors">Transporte y Flotas Pesadas</a></li>
+            <li><a href="#sectores" class="hover:text-mazzei-300 transition-colors">Industria Química y Manufactura</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-white mb-3 text-xs uppercase tracking-wider font-mono">Contacto y Guardias</h4>
+          <div class="space-y-2 text-xs">
+            <p class="text-metal-300">📍 Eje Industrial Central, Venezuela</p>
+            <p class="text-metal-300 font-mono">🕒 Taller: Lun - Vie 7:30am - 5:00pm</p>
+            <p class="text-emerald-400 font-mono font-bold">🚨 Paradas de Planta: 24 Horas</p>
+            <div class="pt-2">
+              <a href="#cotizador-rfq" class="inline-block px-4 py-2 rounded-lg bg-metal-800 border border-metal-700 text-mazzei-300 hover:bg-mazzei-700 hover:text-white transition-all font-semibold">
+                Emitir Solicitud RFQ
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="border-t border-metal-800 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-metal-500">
+        <div>
+          © 2026 Industrias Mazzei. Todos los derechos reservados.
+        </div>
+        <div class="flex items-center gap-6 font-mono text-[11px]">
+          <span>Optimizado para: Astro 5 + Tailwind</span>
+          <span class="text-emerald-400">⚡ 100/100 Core Web Vitals</span>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ================= FLOATING WHATSAPP BUTTON ================= -->
+  <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
+    <a href="https://wa.me/584140000000?text=Hola%20Industrias%20Mazzei,%20solicito%20atenci%C3%B3n%20para%20un%20trabajo%20metalmec%C3%A1nico" target="_blank" rel="noopener" class="w-14 h-14 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-lg shadow-emerald-500/40 hover:scale-110 active:scale-95 transition-all" title="WhatsApp Técnico Inmediato">
+      <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+    </a>
+  </div>
+
+  <!-- ================= INTERACTIVE SCRIPTS (3D Tilt & RFQ Handler) ================= -->
+  <script>
+    // Antigravity 3D Tilt calculation on mouse move for light cards
+    document.querySelectorAll('.tilt-card').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -5.5;
+        const rotateY = ((x - centerX) / centerX) * 5.5;
+        
+        card.style.transform = `perspective(1100px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+        card.style.setProperty('--cursor-x', `${x}px`);
+        card.style.setProperty('--cursor-y', `${y}px`);
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1100px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+      });
+    });
+
+    // RFQ submission handler sending directly to WhatsApp with preformatted industrial payload
+    function submitRFQ() {
+      const company = document.getElementById('rfqCompany').value;
+      const phone = document.getElementById('rfqPhone').value;
+      const service = document.getElementById('rfqService').value;
+      const batch = document.getElementById('rfqBatch').value;
+      const details = document.getElementById('rfqDetails').value;
+      const isEmergency = document.getElementById('rfqEmergency').checked;
+
+      const priorityFlag = isEmergency 
+        ? '🚨 *[PARADA DE PLANTA URGENTE - ATENCIÓN INMEDIATA 24/7]* 🚨\n' 
+        : '📋 *SOLICITUD DE COTIZACIÓN TÉCNICA (RFQ)*\n';
+
+      const payload = `${priorityFlag}\n` +
+                      `🏢 *Empresa / Solicitante:* ${company}\n` +
+                      `📱 *Contacto:* ${phone}\n` +
+                      `⚙️ *Servicio Requerido:* ${service}\n` +
+                      `📦 *Volumen / Tipo:* ${batch}\n` +
+                      `📐 *Especificación / Detalles:* ${details}\n\n` +
+                      `_Enviado desde el portal web oficial Industrias Mazzei_`;
+
+      const encoded = encodeURIComponent(payload);
+      window.open(`https://wa.me/584140000000?text=${encoded}`, '_blank');
+    }
+  </script>
+
+  <!-- Schema.org JSON-LD Structured Data for Local & B2B Ranking -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "IndustrialBusiness",
+    "name": "Industrias Mazzei",
+    "image": "https://industriasmazzei.com/wp-content/uploads/2026/07/d7a705fed35ce35028f16ef2aa09409df9137ce6.png",
+    "description": "Taller metalmecánico industrial de precisión en Venezuela. Especialistas en mecanizado CNC, tornería pesada de 3 metros, soldadura calificada TIG/MIG, oxicorte y fabricación de repuestos bajo plano o muestra física.",
+    "telephone": "+584140000000",
+    "url": "https://industriasmazzei.com",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Maracay",
+      "addressRegion": "Aragua",
+      "addressCountry": "VE"
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Servicios Metalmecánicos Industriales",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Mecanizado en Torno CNC",
+            "image": "https://industriasmazzei.com/wp-content/uploads/2026/06/1da472ef88c0aa3975b66080e6f7f55e8ed7a114.jpg"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Soldadura Calificada Stick, TIG y MIG",
+            "image": "https://industriasmazzei.com/wp-content/uploads/2026/06/0fa1b5e804efe0a887aeb196fd8b8d47c28a3dd3.jpg"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Oxicorte y Plasma CNC",
+            "image": "https://industriasmazzei.com/wp-content/uploads/2026/06/bdfa5c06ab64923d2e7fcdb088bfb7e5ac863b46.jpg"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Tornería Pesada hasta 3 Metros",
+            "image": "https://industriasmazzei.com/wp-content/uploads/2026/06/f0fe187e52a186b7cb6d673ae91ee6377c4af8c2.jpg"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Fabricación Bajo Plano o Muestra Física",
+            "image": "https://industriasmazzei.com/wp-content/uploads/2026/06/44ba7e3f7588716a7a27f396d175af908835565d.jpg"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Plegado de Lámina y Chapa",
+            "image": "https://industriasmazzei.com/wp-content/uploads/2026/06/ea92d9ab3d1428a7581d41658b7c1a66821993a6.jpg"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Troquelado y Estampado",
+            "image": "https://industriasmazzei.com/wp-content/uploads/2026/06/388c40b2b30e53113a3a9d907b9523efb74a4338.jpg"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Corte con Guillotina Industrial",
+            "image": "https://industriasmazzei.com/wp-content/uploads/2026/06/4e380eff9ce6053954674b4c732cc70dd51b0a2c.jpg"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Reconstrucción y Overhaul de Equipos Industriales",
+            "image": "https://industriasmazzei.com/wp-content/uploads/2026/06/671f7fdb309cd26a47c9f0000b6b31be5bc4a06c.jpg"
+          }
+        }
+      ]
+    }
+  }
+  </script>
+
+</body>
+</html>

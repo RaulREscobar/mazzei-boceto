@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="es-VE" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Industrias Mazzei · Laboratorio de Conceptos Visuales & Motion Interactivos</title>
+  <meta name="description" content="Laboratorio de patrones de diseño, micro-interacciones de precisión y simuladores industriales para el nuevo sitio web de Industrias Mazzei.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            mazzei: {
+              50: '#F0F7FF',
+              100: '#E0EFFF',
+              200: '#BAE0FD',
+              300: '#7CC8FB',
+              400: '#36ABF7',
+              500: '#0C8EE9',
+              600: '#0270C7',
+              700: '#0359A1',
+              800: '#074B85',
+              900: '#0C3F6E',
+              950: '#082849'
+            },
+            metal: {
+              50: '#F8FAFC',
+              100: '#F1F5F9',
+              200: '#E2E8F0',
+              300: '#CBD5E1',
+              400: '#94A3B8',
+              500: '#64748B',
+              600: '#475569',
+              700: '#334155',
+              800: '#1E293B',
+              900: '#0F172A'
+            }
+          },
+          boxShadow: {
+            'glow-blue': '0 0 25px -4px rgba(2, 112, 199, 0.35)',
+            'floating-light': '0 20px 40px -15px rgba(15, 23, 42, 0.08), 0 0 1px 1px rgba(15, 23, 42, 0.04)',
+            'card-hover': '0 25px 45px -10px rgba(7, 75, 133, 0.12), 0 0 0 1px rgba(2, 112, 199, 0.25)',
+            'glass-light': '0 10px 30px -5px rgba(15, 23, 42, 0.05)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #FFFFFF;
+      color: #334155;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(2, 112, 199, 0.07) 0%, rgba(255, 255, 255, 0) 65%),
+        radial-gradient(circle at 90% 20%, rgba(7, 75, 133, 0.05) 0%, rgba(255, 255, 255, 0) 50%);
+      background-attachment: fixed;
+      overflow-x: hidden;
+    }
+
+    .blueprint-grid-light {
+      background-image: 
+        linear-gradient(to right, rgba(100, 116, 139, 0.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(100, 116, 139, 0.08) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+
+    /* Laser Scanner Beam */
+    @keyframes laserSweep {
+      0% { top: 0%; opacity: 0.8; }
+      50% { top: 96%; opacity: 1; }
+      100% { top: 0%; opacity: 0.8; }
+    }
+    .laser-beam {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #0270C7, #38BDF8, #0270C7, transparent);
+      box-shadow: 0 0 16px #0270C7, 0 0 28px #38BDF8;
+      animation: laserSweep 3s ease-in-out infinite;
+    }
+
+    /* Active Tab */
+    .tab-btn.active {
+      background: #074B85;
+      color: #FFFFFF;
+      font-weight: 700;
+      box-shadow: 0 4px 14px rgba(7, 75, 133, 0.25);
+    }
+
+    /* Before / After Slider */
+    .comparison-container {
+      position: relative;
+      overflow: hidden;
+      user-select: none;
+    }
+    .comparison-before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50%;
+      height: 100%;
+      overflow: hidden;
+    }
+    .comparison-slider {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 4px;
+      background: #0270C7;
+      cursor: ew-resize;
+      box-shadow: 0 0 12px rgba(2, 112, 199, 0.6);
+    }
+    .comparison-handle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 38px;
+      height: 38px;
+      background: #FFFFFF;
+      border: 3px solid #074B85;
+      border-radius: 9999px;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body class="font-sans antialiased text-metal-800">
+
+  <!-- ================= TOP CONTROLLER BAR ================= -->
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-metal-200 px-4 py-3 shadow-sm">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      
+      <!-- Brand & Link to Main Prototype -->
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 rounded-xl bg-mazzei-800 flex items-center justify-center p-1.5 shadow-md group-hover:scale-105 transition-transform">
+            <img src="img/logo-header.png" alt="Industrias Mazzei" class="w-full h-auto object-contain filter brightness-0 invert" onerror="this.onerror=null; this.src='img/logo-footer.png';">
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-metal-900 font-bold text-sm tracking-tight group-hover:text-mazzei-700 transition-colors">INDUSTRIAS MAZZEI</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-mazzei-50 text-mazzei-700 border border-mazzei-200 font-mono font-semibold">LAB DE CONCEPTOS</span>
+            </div>
+            <p class="text-xs text-metal-500">Módulos interactivos y simuladores industriales</p>
+          </div>
+        </a>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <div class="flex items-center p-1 bg-metal-100 border border-metal-200 rounded-xl gap-1 text-xs">
+        <button onclick="switchTab('tab-metrologia')" id="btn-tab-metrologia" class="tab-btn active px-3.5 py-1.5 rounded-lg transition-all flex items-center gap-1.5">
+          <span>🔬 1. Metrología Láser ±0.01 mm</span>
+        </button>
+        <button onclick="switchTab('tab-parada')" id="btn-tab-parada" class="tab-btn px-3.5 py-1.5 rounded-lg text-metal-600 hover:text-metal-900 transition-all flex items-center gap-1.5">
+          <span>⚡ 2. Simulador Parada 24/7</span>
+        </button>
+        <button onclick="switchTab('tab-slider')" id="btn-tab-slider" class="tab-btn px-3.5 py-1.5 rounded-lg text-metal-600 hover:text-metal-900 transition-all flex items-center gap-1.5">
+          <span>🔄 3. Escáner Antes / Después</span>
+        </button>
+      </div>
+
+      <!-- Return to Main Site Button -->
+      <div class="flex items-center gap-2">
+        <a href="index.html" class="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-metal-100 hover:bg-metal-200 text-metal-700 transition-colors">
+          <span>← Volver al Boceto Flagship</span>
+        </a>
+        <a href="https://wa.me/584144383180?text=Hola%20Industrias%20Mazzei,%20vengo%20del%20laboratorio%20de%20conceptos%20visuales%20y%20deseo%20cotizar." target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-xs font-semibold px-3.5 py-1.5 rounded-lg bg-mazzei-800 hover:bg-mazzei-700 text-white shadow-sm transition-all">
+          <span>Contactar Taller</span>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ================= SUB-HEADER INFO ================= -->
+  <div class="bg-metal-50 border-b border-metal-200 py-3 px-4 text-center">
+    <p class="text-xs text-metal-600 max-w-4xl mx-auto">
+      Este laboratorio interactivo demuestra las 3 innovaciones clave de experiencia de usuario diseñadas para <strong>Industrias Mazzei</strong> basadas en los mejores benchmarks de ingeniería de precisión de Alemania y Suiza (Kern, Knupfer) adaptados a la industria nacional.
+    </p>
+  </div>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+
+    <!-- ============================================================ -->
+    <!-- CONCEPT 1: METROLOGÍA LÁSER & HUD DE TOLERANCIAS ±0.01 MM   -->
+    <!-- ============================================================ -->
+    <section id="tab-metrologia" class="concept-tab block">
+      
+      <!-- Section Title -->
+      <div class="text-center max-w-3xl mx-auto mb-10">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-mazzei-50 border border-mazzei-200 text-mazzei-700 text-xs font-mono font-semibold mb-3">
+          <span>INSPECCIÓN DIMENSIONAL · CONTROL DE CALIDAD CMM</span>
+        </div>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-metal-900 tracking-tight">
+          Micro-Interacción de Metrología Láser & Materiales
+        </h1>
+        <p class="mt-3 text-base text-metal-600">
+          Permite a gerentes de mantenimiento e ingenieros de planta comprobar las tolerancias micrométricas reales alcanzadas en el torno CNC de Mazzei y seleccionar aleaciones para ver sus especificaciones mecánicas.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Left: Interactive Caliper / Scan Reticle (7 cols) -->
+        <div class="lg:col-span-7 bg-white rounded-2xl border border-metal-200 shadow-floating-light p-6 overflow-hidden relative">
+          
+          <div class="flex items-center justify-between border-b border-metal-100 pb-4 mb-4">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span class="text-xs font-mono font-bold text-metal-900 tracking-wider">BANCO DE MEDICIÓN ÓPTICA CNC</span>
+            </div>
+            <div class="text-[11px] font-mono text-metal-500 bg-metal-100 px-2 py-0.5 rounded">
+              MODO: CONTINUO 1000 HZ
+            </div>
+          </div>
+
+          <!-- Visual Screen with Laser Reticle -->
+          <div class="relative w-full h-80 sm:h-96 rounded-xl overflow-hidden bg-metal-900 border border-metal-700 blueprint-grid-light group">
+            
+            <!-- Real CNC Machine Image -->
+            <img src="img/servicio-torno-cnc.jpg" alt="Mecanizado Torno CNC Mazzei" class="w-full h-full object-cover opacity-85 group-hover:scale-105 transition-transform duration-700">
+            
+            <!-- Blue tint layer -->
+            <div class="absolute inset-0 bg-mazzei-950/40 mix-blend-multiply"></div>
+            
+            <!-- Laser Scanning Beam -->
+            <div class="laser-beam"></div>
+
+            <!-- Precision Reticle Overlay (SVG) -->
+            <svg class="absolute inset-0 w-full h-full pointer-events-none stroke-sky-400/40" xmlns="http://www.w3.org/2000/svg">
+              <line x1="50%" y1="0" x2="50%" y2="100%" stroke-width="1" stroke-dasharray="4 4" />
+              <line x1="0" y1="50%" x2="100%" y2="50%" stroke-width="1" stroke-dasharray="4 4" />
+              <circle cx="50%" cy="50%" r="60" fill="none" stroke-width="1" class="stroke-sky-400/60" />
+              <circle cx="50%" cy="50%" r="120" fill="none" stroke-width="1" stroke-dasharray="2 4" class="stroke-sky-400/30" />
+            </svg>
+
+            <!-- Live HUD Coordinates overlay -->
+            <div class="absolute top-4 left-4 bg-metal-900/90 backdrop-blur-md border border-sky-500/40 rounded-lg p-3 text-white font-mono text-xs shadow-lg">
+              <div class="text-[10px] text-sky-400 font-semibold mb-1">COORDENADAS CNC EN VIVO</div>
+              <div class="grid grid-cols-2 gap-x-3 gap-y-1">
+                <div>EJE X: <span id="hud-x" class="text-white font-bold">+145.020</span> mm</div>
+                <div>EJE Z: <span id="hud-z" class="text-white font-bold">-320.150</span> mm</div>
+                <div>Ø EXT: <span id="hud-diam" class="text-emerald-400 font-bold">Ø 85.000</span> mm</div>
+                <div>RUNOUT: <span class="text-emerald-400 font-bold">&lt; 0.004</span> mm</div>
+              </div>
+            </div>
+
+            <!-- Tolerance Pass Badge -->
+            <div class="absolute bottom-4 right-4 bg-emerald-950/90 border border-emerald-500 text-emerald-300 backdrop-blur-md px-3 py-2 rounded-lg font-mono text-xs flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+              <span>TOLERANCIA VERIFICADA: ±0.008 mm (PASA)</span>
+            </div>
+
+            <!-- Surface Roughness Badge -->
+            <div class="absolute bottom-4 left-4 bg-metal-900/90 border border-metal-700 text-metal-300 backdrop-blur-md px-3 py-1.5 rounded-lg font-mono text-[11px]">
+              RUGOSIDAD SUPERFICIAL: <strong class="text-sky-300">Ra 0.8 µm</strong>
+            </div>
+          </div>
+
+          <!-- Controls under the viewer -->
+          <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-2">
+              <button onclick="triggerLaserCycle()" class="px-4 py-2 rounded-lg bg-mazzei-800 hover:bg-mazzei-700 text-white font-semibold text-xs transition-colors flex items-center gap-2 shadow-sm">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span>Ejecutar Medición CMM</span>
+              </button>
+              <button onclick="resetLaserCoords()" class="px-3 py-2 rounded-lg bg-metal-100 hover:bg-metal-200 text-metal-700 font-medium text-xs transition-colors">
+                Reiniciar Cero Pieza
+              </button>
+            </div>
+            <div class="text-xs text-metal-500 font-mono" id="laser-status">
+              ESTADO: LÁSER ACTIVO · CALIBRACIÓN ASTM VIGENTE
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right: Interactive Material Selector (5 cols) -->
+        <div class="lg:col-span-5 space-y-4">
+          <div class="bg-white rounded-2xl border border-metal-200 p-6 shadow-floating-light">
+            <h3 class="text-lg font-bold text-metal-900 flex items-center gap-2 mb-2">
+              <svg class="w-5 h-5 text-mazzei-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+              <span>Selector de Materiales & Aleaciones</span>
+            </h3>
+            <p class="text-xs text-metal-600 mb-4">
+              Seleccione una aleación para ver cómo Mazzei ajusta los parámetros de mecanizado, herramientas de corte y tratamiento térmico:
+            </p>
+
+            <!-- Material Chips -->
+            <div class="grid grid-cols-2 gap-2 mb-6">
+              <button onclick="selectMaterial('aisi4140')" id="mat-btn-aisi4140" class="mat-chip active text-left p-2.5 rounded-xl border border-mazzei-700 bg-mazzei-50 text-xs font-semibold text-mazzei-900 transition-all">
+                <div class="text-[10px] text-mazzei-600 font-mono">ACERO BONIFICADO</div>
+                AISI 4140 (Cromo-Molibdeno)
+              </button>
+              <button onclick="selectMaterial('aisi1045')" id="mat-btn-aisi1045" class="mat-chip text-left p-2.5 rounded-xl border border-metal-200 bg-metal-50 text-xs font-semibold text-metal-800 hover:border-metal-300 transition-all">
+                <div class="text-[10px] text-metal-500 font-mono">ACERO AL CARBONO</div>
+                AISI 1045
+              </button>
+              <button onclick="selectMaterial('aisi304')" id="mat-btn-aisi304" class="mat-chip text-left p-2.5 rounded-xl border border-metal-200 bg-metal-50 text-xs font-semibold text-metal-800 hover:border-metal-300 transition-all">
+                <div class="text-[10px] text-metal-500 font-mono">INOXIDABLE ALIMENTARIO</div>
+                AISI 304 / 316
+              </button>
+              <button onclick="selectMaterial('bronce')" id="mat-btn-bronce" class="mat-chip text-left p-2.5 rounded-xl border border-metal-200 bg-metal-50 text-xs font-semibold text-metal-800 hover:border-metal-300 transition-all">
+                <div class="text-[10px] text-metal-500 font-mono">ANTIFRICCIÓN</div>
+                Bronce SAE 660
+              </button>
+            </div>
+
+            <!-- Material Detail Card -->
+            <div id="material-specs" class="bg-metal-50 rounded-xl p-4 border border-metal-200 text-xs space-y-3">
+              <div class="flex items-center justify-between border-b border-metal-200 pb-2">
+                <span class="font-bold text-metal-900" id="spec-name">AISI / SAE 4140 Bonificado</span>
+                <span class="font-mono text-mazzei-700 font-semibold" id="spec-standard">ASTM A29 / DIN 42CrMo4</span>
+              </div>
+              <div class="grid grid-cols-2 gap-3 text-metal-700">
+                <div>
+                  <span class="text-metal-500 block text-[11px]">Dureza Tratada:</span>
+                  <strong class="text-metal-900 font-mono" id="spec-hardness">28 - 32 HRC (Núcleo) / 55 HRC (Inducción)</strong>
+                </div>
+                <div>
+                  <span class="text-metal-500 block text-[11px]">Resistencia a Tracción:</span>
+                  <strong class="text-metal-900 font-mono" id="spec-tensile">950 - 1100 MPa</strong>
+                </div>
+              </div>
+              <div>
+                <span class="text-metal-500 block text-[11px] mb-1">Aplicaciones Habituales en Taller:</span>
+                <p class="text-metal-700" id="spec-apps">
+                  Ejes de transmisión pesada, piñones helicoidales, pernos de alta resistencia y vástagos de cilindros hidráulicos para molinos y maquinaria pesada.
+                </p>
+              </div>
+              <div class="pt-2 border-t border-metal-200 flex items-center justify-between">
+                <span class="text-metal-500 text-[11px]">Tolerancia mecanizable:</span>
+                <span class="font-mono text-emerald-600 font-bold">±0.010 mm en CNC</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Quality Guarantee Note -->
+          <div class="p-4 rounded-xl bg-mazzei-50/70 border border-mazzei-200/80 text-xs text-mazzei-900 flex items-start gap-3">
+            <svg class="w-5 h-5 text-mazzei-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+            <div>
+              <span class="font-bold">Certificado Dimensional Incluido:</span>
+              <p class="text-mazzei-800 mt-0.5">Toda pieza mecanizada en Industrias Mazzei se entrega con reporte metrológico de cotas críticas y certificado de composición de materia prima.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- CONCEPT 2: SIMULADOR DE PARADA DE PLANTA 24/7 (SLA)          -->
+    <!-- ============================================================ -->
+    <section id="tab-parada" class="concept-tab hidden">
+      
+      <!-- Section Title -->
+      <div class="text-center max-w-3xl mx-auto mb-10">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-mazzei-50 border border-mazzei-200 text-mazzei-700 text-xs font-mono font-semibold mb-3">
+          <span>RESPUESTA DE EMERGENCIA INDUSTRIAL · SLA CRÍTICO</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-metal-900 tracking-tight">
+          Simulador de Costo de Parada & Turno 24/7
+        </h2>
+        <p class="mt-3 text-base text-metal-600">
+          Una máquina detenida en una planta de alimentos, azúcar o cerámica cuesta miles de dólares por hora. Calcule el impacto financiero y despache la asistencia inmediata de Mazzei.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Left: Loss Calculator (6 cols) -->
+        <div class="lg:col-span-6 bg-white rounded-2xl border border-metal-200 shadow-floating-light p-6">
+          <h3 class="text-lg font-bold text-metal-900 mb-1 flex items-center gap-2">
+            <svg class="w-5 h-5 text-mazzei-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <span>Calculadora de Pérdidas por Inactividad</span>
+          </h3>
+          <p class="text-xs text-metal-600 mb-6">Ajuste la industria y las horas para simular el costo de espera de repuesto importado vs fabricación local Mazzei:</p>
+
+          <div class="space-y-5">
+            <!-- Industry Select -->
+            <div>
+              <label class="block text-xs font-semibold text-metal-700 mb-2">1. Sector Industrial:</label>
+              <select id="calc-industry" onchange="calculateDowntime()" class="w-full text-xs font-medium px-3.5 py-2.5 rounded-xl border border-metal-200 bg-metal-50 text-metal-900 focus:outline-none focus:ring-2 focus:ring-mazzei-600">
+                <option value="6500" data-name="Central Azucarero / Molienda">Central Azucarero / Molienda ($6,500 / hora)</option>
+                <option value="4200" data-name="Silo / Almacenamiento de Granos">Silo / Planta de Alimentos y Granos ($4,200 / hora)</option>
+                <option value="3800" data-name="Planta Cerámica / Cemento">Planta Cerámica / Pavimentos ($3,800 / hora)</option>
+                <option value="1800" data-name="Línea de Envasado / Farmacéutica">Línea de Envasado / Cosmética ($1,800 / hora)</option>
+                <option value="1200" data-name="Flota de Carga Pesada">Flota de Transporte Pesado ($1,200 / día)</option>
+              </select>
+            </div>
+
+            <!-- Hours Slider -->
+            <div>
+              <div class="flex items-center justify-between text-xs font-semibold text-metal-700 mb-2">
+                <label>2. Horas de Parada de Planta:</label>
+                <span id="calc-hours-display" class="font-mono text-mazzei-700 font-bold text-sm">24 Horas</span>
+              </div>
+              <input type="range" id="calc-hours" min="4" max="168" value="24" step="4" oninput="calculateDowntime()" class="w-full accent-mazzei-700 cursor-pointer">
+              <div class="flex justify-between text-[10px] text-metal-400 font-mono mt-1">
+                <span>4 Horas (Turno)</span>
+                <span>24 Horas (1 Día)</span>
+                <span>72 Horas (Fin de sem.)</span>
+                <span>168 Horas (1 Semana)</span>
+              </div>
+            </div>
+
+            <!-- Comparison Box -->
+            <div class="bg-metal-50 rounded-xl p-4 border border-metal-200 space-y-4">
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="text-[11px] text-metal-500 block">Pérdida por Importar de Fábrica (4-6 semanas):</span>
+                  <span id="cost-import" class="text-lg font-bold font-mono text-red-600">$156,000 USD</span>
+                </div>
+                <div class="text-right">
+                  <span class="text-[11px] text-metal-500 block">Tiempo Respuesta Mazzei 24/7:</span>
+                  <span class="text-lg font-bold font-mono text-emerald-600">&lt; 24 - 48 Horas</span>
+                </div>
+              </div>
+
+              <div class="pt-3 border-t border-metal-200">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-metal-900">Ahorro Estimado por Fabricación Local:</span>
+                  <span id="savings-display" class="text-xl font-extrabold font-mono text-mazzei-800">$132,000 USD</span>
+                </div>
+                <p class="text-[11px] text-metal-500 mt-1">
+                  Evita lucro cesante, retrasos de aduanas y fletes aéreos de emergencia.
+                </p>
+              </div>
+            </div>
+
+            <!-- WhatsApp Action -->
+            <button onclick="dispatchUrgentWhatsApp()" class="w-full py-3 px-4 rounded-xl bg-mazzei-800 hover:bg-mazzei-700 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md transition-all">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+              <span>Activar Asistencia Parada 24/7 en WhatsApp</span>
+            </button>
+
+          </div>
+        </div>
+
+        <!-- Right: Protocol Stepper (6 cols) -->
+        <div class="lg:col-span-6 space-y-4">
+          <div class="bg-white rounded-2xl border border-metal-200 shadow-floating-light p-6">
+            <h3 class="text-lg font-bold text-metal-900 mb-1 flex items-center gap-2">
+              <svg class="w-5 h-5 text-mazzei-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+              <span>Protocolo de Intervención Rápida Mazzei</span>
+            </h3>
+            <p class="text-xs text-metal-600 mb-6">Flujo de trabajo para contingencias de alta criticidad en maquinaria:</p>
+
+            <div class="space-y-4">
+              <!-- Step 1 -->
+              <div class="flex items-start gap-4 p-3 rounded-xl bg-metal-50 border border-metal-200">
+                <div class="w-8 h-8 rounded-lg bg-mazzei-800 text-white font-mono font-bold text-xs flex items-center justify-center shrink-0">
+                  0h
+                </div>
+                <div>
+                  <h4 class="text-xs font-bold text-metal-900">Recepción Muestra Física o Plano CAD</h4>
+                  <p class="text-[11px] text-metal-600 mt-0.5">El cliente envía foto preliminar por WhatsApp o entrega la pieza rota en taller. Evaluación inmediata de material y factibilidad.</p>
+                </div>
+              </div>
+
+              <!-- Step 2 -->
+              <div class="flex items-start gap-4 p-3 rounded-xl bg-metal-50 border border-metal-200">
+                <div class="w-8 h-8 rounded-lg bg-mazzei-700 text-white font-mono font-bold text-xs flex items-center justify-center shrink-0">
+                  2h
+                </div>
+                <div>
+                  <h4 class="text-xs font-bold text-metal-900">Ingeniería Inversa & Selección de Barra</h4>
+                  <p class="text-[11px] text-metal-600 mt-0.5">Medición dimensional con micrómetro y pie de rey, generación de programa de corte CNC y corte de materia prima en almacén propio.</p>
+                </div>
+              </div>
+
+              <!-- Step 3 -->
+              <div class="flex items-start gap-4 p-3 rounded-xl bg-metal-50 border border-metal-200">
+                <div class="w-8 h-8 rounded-lg bg-mazzei-600 text-white font-mono font-bold text-xs flex items-center justify-center shrink-0">
+                  6h
+                </div>
+                <div>
+                  <h4 class="text-xs font-bold text-metal-900">Mecanizado Continuo en Taller</h4>
+                  <p class="text-[11px] text-metal-600 mt-0.5">Torneado, fresado de chaveteros o dentado continuo. Si requiere soldadura especial de reconstrucción, entra al área de calderería.</p>
+                </div>
+              </div>
+
+              <!-- Step 4 -->
+              <div class="flex items-start gap-4 p-3 rounded-xl bg-metal-50 border border-metal-200">
+                <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white font-mono font-bold text-xs flex items-center justify-center shrink-0">
+                  12h
+                </div>
+                <div>
+                  <h4 class="text-xs font-bold text-metal-900">Control Metrológico & Despacho a Planta</h4>
+                  <p class="text-[11px] text-metal-600 mt-0.5">Verificación de tolerancias dimensionales, reporte técnico y despacho para montaje en máquina.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Real Workshop Photo Banner -->
+          <div class="relative rounded-2xl overflow-hidden border border-metal-200 shadow-sm h-40">
+            <img src="img/taller-operacion-1.jpg" alt="Operación Continua Mazzei" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-r from-metal-950/80 via-metal-950/40 to-transparent flex items-center p-6">
+              <div class="text-white max-w-xs">
+                <span class="text-[10px] font-mono text-sky-400 font-semibold block mb-1">CAPACIDAD INSTALADA</span>
+                <div class="text-sm font-bold">Maquinaria de respaldo y operadores calificados listos para emergencias</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- CONCEPT 3: ESCÁNER ANTES / DESPUÉS (RECONSTRUCCIÓN VS NUEVA) -->
+    <!-- ============================================================ -->
+    <section id="tab-slider" class="concept-tab hidden">
+      
+      <!-- Section Title -->
+      <div class="text-center max-w-3xl mx-auto mb-10">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-mazzei-50 border border-mazzei-200 text-mazzei-700 text-xs font-mono font-semibold mb-3">
+          <span>INGENIERÍA INVERSA · REPARACIÓN INTEGRAL</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-metal-900 tracking-tight">
+          Comparador Interactivo: Pieza Desgastada vs Reconstruida
+        </h2>
+        <p class="mt-3 text-base text-metal-600">
+          Arrastre el control central para comparar el estado crítico de un componente industrial que llega al taller contra el resultado final recuperado con cotas nominales y temple superficial.
+        </p>
+      </div>
+
+      <div class="max-w-4xl mx-auto bg-white rounded-2xl border border-metal-200 shadow-floating-light p-6 md:p-8">
+        
+        <!-- Interactive Split Slider -->
+        <div class="comparison-container rounded-xl overflow-hidden h-80 sm:h-96 relative border border-metal-300" id="compare-box">
+          
+          <!-- AFTER IMAGE (Underneath, Full Width) -->
+          <img src="img/servicio-reconstruccion.jpg" alt="Pieza Reconstruida por Mazzei" class="absolute inset-0 w-full h-full object-cover">
+          <div class="absolute bottom-4 right-4 bg-mazzei-900/90 text-white font-mono text-xs px-3 py-1.5 rounded-lg border border-mazzei-600 backdrop-blur-md">
+            DESPUÉS: Reconstruida Mazzei (Cotas Nominales)
+          </div>
+
+          <!-- BEFORE IMAGE (Clipped on the left) -->
+          <div class="comparison-before" id="compare-before">
+            <img src="img/servicio-fabricacion-piezas.jpg" alt="Pieza Desgastada en Máquina" class="absolute inset-0 w-full h-full object-cover filter contrast-125 sepia-25" style="width: 100%; min-width: 800px;">
+            <div class="absolute bottom-4 left-4 bg-metal-900/90 text-metal-200 font-mono text-xs px-3 py-1.5 rounded-lg border border-metal-700 backdrop-blur-md">
+              ANTES: Desgaste Crítico en Planta
+            </div>
+          </div>
+
+          <!-- Divider Line with Handle -->
+          <div class="comparison-slider" id="compare-slider">
+            <div class="comparison-handle">
+              <svg class="w-4 h-4 text-mazzei-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path></svg>
+            </div>
+          </div>
+
+        </div>
+
+        <p class="text-center text-xs text-metal-500 mt-3 font-mono">
+          ← Arrastre hacia la izquierda o derecha para ver la comparativa →
+        </p>
+
+        <!-- Technical Comparison Matrix -->
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 pt-6 border-t border-metal-200 text-xs">
+          
+          <div class="p-4 rounded-xl bg-metal-50 border border-metal-200">
+            <div class="text-metal-500 font-medium mb-1">Ahorro Económico</div>
+            <div class="text-xl font-bold font-mono text-emerald-600">-60% a -75%</div>
+            <p class="text-[11px] text-metal-600 mt-1">Comparado con comprar un componente nuevo o importar del fabricante de origen.</p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-metal-50 border border-metal-200">
+            <div class="text-metal-500 font-medium mb-1">Tiempo de Entrega</div>
+            <div class="text-xl font-bold font-mono text-mazzei-800">48h a 72 Horas</div>
+            <p class="text-[11px] text-metal-600 mt-1">Frente a 6 a 12 semanas de fletes marítimos o aduanas internacionales.</p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-metal-50 border border-metal-200">
+            <div class="text-metal-500 font-medium mb-1">Propiedades Mecánicas</div>
+            <div class="text-xl font-bold font-mono text-metal-900">+120% Vida Útil</div>
+            <p class="text-[11px] text-metal-600 mt-1">Aplicación de recubrimientos duros y aporte de soldadura especial antifricción.</p>
+          </div>
+
+        </div>
+
+        <!-- Fast Track CTA -->
+        <div class="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-xl bg-mazzei-50 border border-mazzei-200">
+          <div>
+            <span class="text-xs font-bold text-mazzei-900">¿Tiene un eje, reductor o rodillo desgastado?</span>
+            <p class="text-xs text-mazzei-700">Envíenos fotos y medidas para recibir un diagnóstico de viabilidad de recuperación en 2 horas.</p>
+          </div>
+          <a href="https://wa.me/584144383180?text=Hola%20Industrias%20Mazzei,%20tengo%20una%20pieza%20desgastada%20y%20deseo%20evaluar%20su%20reconstrucci%C3%B3n." target="_blank" rel="noopener noreferrer" class="shrink-0 px-4 py-2.5 rounded-lg bg-mazzei-800 hover:bg-mazzei-700 text-white font-bold text-xs shadow-sm transition-colors">
+            Consultar Reparación
+          </a>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="mt-16 border-t border-metal-200 bg-metal-50 py-8 px-4 text-center text-xs text-metal-500">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <span class="font-bold text-metal-700">Industrias Mazzei</span> · Soluciones Metalmecánicas Integrales
+      </div>
+      <div>
+        Propuesta técnica y prototipo interactivo · <a href="index.html" class="text-mazzei-700 font-semibold hover:underline">Ver Prototipo Flagship</a>
+      </div>
+      <div class="font-mono text-[11px] text-metal-400">
+        40 Años de Trayectoria Industrial
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= JAVASCRIPT CONTROLLERS ================= -->
+  <script>
+    // Tab switching
+    function switchTab(tabId) {
+      document.querySelectorAll('.concept-tab').forEach(tab => {
+        tab.classList.add('hidden');
+        tab.classList.remove('block');
+      });
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+        btn.classList.add('text-metal-600');
+      });
+
+      const activeSection = document.getElementById(tabId);
+      if (activeSection) {
+        activeSection.classList.remove('hidden');
+        activeSection.classList.add('block');
+      }
+
+      const activeBtn = document.getElementById('btn-' + tabId);
+      if (activeBtn) {
+        activeBtn.classList.add('active');
+        activeBtn.classList.remove('text-metal-600');
+      }
+    }
+
+    // Concept 1: Laser HUD
+    function triggerLaserCycle() {
+      const statusEl = document.getElementById('laser-status');
+      statusEl.innerHTML = '<span class="text-sky-600 font-bold">ESCANEANDO SUPERFICIE... [PASO 1/3]</span>';
+      
+      let step = 0;
+      const interval = setInterval(() => {
+        step++;
+        const randX = (145 + (Math.random() * 0.05 - 0.025)).toFixed(3);
+        const randZ = (-320 - (Math.random() * 0.05 - 0.025)).toFixed(3);
+        const randDiam = (85 + (Math.random() * 0.008 - 0.004)).toFixed(3);
+        
+        document.getElementById('hud-x').innerText = '+' + randX;
+        document.getElementById('hud-z').innerText = randZ;
+        document.getElementById('hud-diam').innerText = 'Ø ' + randDiam;
+
+        if (step > 6) {
+          clearInterval(interval);
+          statusEl.innerHTML = '<span class="text-emerald-600 font-bold">✓ MEDICIÓN COMPLETA · REPORTE CMM GENERADO (±0.006 mm)</span>';
+        }
+      }, 300);
+    }
+
+    function resetLaserCoords() {
+      document.getElementById('hud-x').innerText = '+145.000';
+      document.getElementById('hud-z').innerText = '-320.000';
+      document.getElementById('hud-diam').innerText = 'Ø 85.000';
+      document.getElementById('laser-status').innerText = 'ESTADO: SISTEMA EN CERO PIEZA (CALIBRADO)';
+    }
+
+    // Material Selector Data
+    const materials = {
+      aisi4140: {
+        name: 'AISI / SAE 4140 Bonificado',
+        standard: 'ASTM A29 / DIN 42CrMo4',
+        hardness: '28 - 32 HRC (Núcleo) / 55 HRC (Inducción)',
+        tensile: '950 - 1100 MPa',
+        apps: 'Ejes de transmisión pesada, piñones helicoidales, pernos de alta resistencia y vástagos de cilindros hidráulicos para molinos y maquinaria pesada.'
+      },
+      aisi1045: {
+        name: 'AISI / SAE 1045 Acero al Carbono',
+        standard: 'ASTM A29 / DIN C45',
+        hardness: '170 - 210 HB',
+        tensile: '570 - 700 MPa',
+        apps: 'Bujes, ejes estándar, acoples de maquinaria agrícola, placas base mecanizadas y componentes de sujeción mecánica.'
+      },
+      aisi304: {
+        name: 'Acero Inoxidable Austenítico AISI 304 / 316',
+        standard: 'ASTM A276 / DIN 1.4301',
+        hardness: '160 - 190 HB (No templable)',
+        tensile: '520 - 720 MPa',
+        apps: 'Silos, tornillos sin fin de alimentos, tanques, agitadores y repuestos sometidos a corrosión ácida o humedad constante.'
+      },
+      bronce: {
+        name: 'Bronce Antifricción SAE 660 (CDA 932)',
+        standard: 'ASTM B505 / SAE 660',
+        hardness: '65 - 75 HB',
+        tensile: '240 MPa',
+        apps: 'Bocinas de alta carga, tuercas de avance para tornos, cojinetes de molinos y chumaceras sometidas a fricción continua.'
+      }
+    };
+
+    function selectMaterial(key) {
+      document.querySelectorAll('.mat-chip').forEach(btn => {
+        btn.classList.remove('active', 'border-mazzei-700', 'bg-mazzei-50', 'text-mazzei-900');
+        btn.classList.add('border-metal-200', 'bg-metal-50', 'text-metal-800');
+      });
+      const selectedBtn = document.getElementById('mat-btn-' + key);
+      if (selectedBtn) {
+        selectedBtn.classList.add('active', 'border-mazzei-700', 'bg-mazzei-50', 'text-mazzei-900');
+        selectedBtn.classList.remove('border-metal-200', 'bg-metal-50', 'text-metal-800');
+      }
+
+      const data = materials[key];
+      if (data) {
+        document.getElementById('spec-name').innerText = data.name;
+        document.getElementById('spec-standard').innerText = data.standard;
+        document.getElementById('spec-hardness').innerText = data.hardness;
+        document.getElementById('spec-tensile').innerText = data.tensile;
+        document.getElementById('spec-apps').innerText = data.apps;
+      }
+    }
+
+    // Concept 2: Downtime Calculator
+    function calculateDowntime() {
+      const select = document.getElementById('calc-industry');
+      const ratePerHour = parseFloat(select.value);
+      const hours = parseInt(document.getElementById('calc-hours').value);
+
+      document.getElementById('calc-hours-display').innerText = hours + ' Horas';
+
+      // Import loss: rate * 30 days (720 hrs) or proportional
+      const importCost = ratePerHour * 24 * 15; // 15 days avg wait
+      const mazzeiCost = ratePerHour * hours;
+      const savings = Math.max(0, importCost - mazzeiCost);
+
+      document.getElementById('cost-import').innerText = '$' + (importCost).toLocaleString('en-US') + ' USD';
+      document.getElementById('savings-display').innerText = '$' + (savings).toLocaleString('en-US') + ' USD';
+    }
+
+    function dispatchUrgentWhatsApp() {
+      const select = document.getElementById('calc-industry');
+      const industryName = select.options[select.selectedIndex].getAttribute('data-name');
+      const hours = document.getElementById('calc-hours').value;
+      
+      const msg = `Hola Industrias Mazzei, requiero ASISTENCIA DE EMERGENCIA POR PARADA DE PLANTA:\n- Sector: ${industryName}\n- Estimado de parada: ${hours} horas\n- Solicito contacto inmediato con el departamento técnico.`;
+      const url = `https://wa.me/584144383180?text=${encodeURIComponent(msg)}`;
+      window.open(url, '_blank');
+    }
+
+    // Concept 3: Before / After Slider
+    const container = document.getElementById('compare-box');
+    const beforeEl = document.getElementById('compare-before');
+    const slider = document.getElementById('compare-slider');
+    let isDragging = false;
+
+    function setSliderPosition(x) {
+      const rect = container.getBoundingClientRect();
+      let pos = (x - rect.left) / rect.width;
+      if (pos < 0.05) pos = 0.05;
+      if (pos > 0.95) pos = 0.95;
+
+      const percentage = pos * 100;
+      beforeEl.style.width = percentage + '%';
+      slider.style.left = percentage + '%';
+    }
+
+    slider.addEventListener('mousedown', () => isDragging = true);
+    window.addEventListener('mouseup', () => isDragging = false);
+    window.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      setSliderPosition(e.clientX);
+    });
+
+    // Touch support for mobile
+    slider.addEventListener('touchstart', () => isDragging = true);
+    window.addEventListener('touchend', () => isDragging = false);
+    window.addEventListener('touchmove', (e) => {
+      if (!isDragging || !e.touches[0]) return;
+      setSliderPosition(e.touches[0].clientX);
+    });
+
+    // Run init
+    calculateDowntime();
+  </script>
+
+</body>
+</html>
